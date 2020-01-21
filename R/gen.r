@@ -21,15 +21,26 @@
 #' @param subset only generate values if the condition provided in subset is true.  Make sure to enclose the expression in quotes, like so: subset="female==1 & highschool==1" to generate the values only for women who graduated from highschool.  This option is used like the "if" in Stata.
 #' @param replace either TRUE or FALSE.  If FALSE (default), the code refuses to alter the variable if the variable already exists.  Otherwise, if replace=TRUE, then the values will be replaced.
 #' @return returns NULL, invisibly
+#' @examples
+#' use(cars, clear=TRUE)
+#' gen(speeddist, speed*dist)
+#' listif()
 #' @importFrom stats "formula"
 #' @importFrom stats "model.frame"
 #' @importFrom stats "terms"
 #' @importFrom stats "as.formula"
 #' @importFrom stats "na.omit"
+#' @importFrom rlang "ensym"
+#' @importFrom rlang "enquo"
 #' @export
 gen <- function (var, value, byvar=NULL, subset=NULL, replace=FALSE)
 {
   assert_loaded()
+
+
+  var <- gvcharexpr(enquo(var))
+  value <- gvcharexpr(enquo(value))
+  
   if (replace==FALSE && var %in% describe())
   {
     stop(paste("replace=FALSE and variable ", var, " already in data. Call with option replace=TRUE to replace data.",sep=""))
@@ -56,7 +67,7 @@ gen <- function (var, value, byvar=NULL, subset=NULL, replace=FALSE)
       {
         byvar.use <- byvar
       } else {
-        byvar.use <- varlist(byvar)
+        byvar.use <- structure_varlist(byvar, type="formula")
       }
       by.level.data <- model.frame(byvar.use, data=data, na.action=NULL)
       by.level <- subset(by.level.data, subs)

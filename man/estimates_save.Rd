@@ -4,14 +4,23 @@
 \alias{estimates_save}
 \title{save \code{genvar} estimates}
 \usage{
-estimates_save(file)
+estimates_save(estfile)
 }
 \arguments{
-\item{file}{file to save current estimates to.}
+\item{estfile}{file to save current estimates to.}
 }
 \value{
 returns NULL, invisibly
 }
 \description{
 save \code{genvar} estimates
+}
+\examples{
+use(cars, clear=TRUE)
+reg(speed,dist)
+fp <- file.path(tempdir(), "myest.rdata")
+estimates_save(fp)
+clear()
+estimates_use(fp)
+estimates_get()
 }

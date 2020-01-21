@@ -7,7 +7,7 @@
 probit(...)
 }
 \arguments{
-\item{...}{options to pass to \code{logit}}
+\item{...}{options passed to \code{logit}.}
 }
 \description{
 \code{probit(...)} is equivalent to \code{logit(..., linkfunc="probit")}.

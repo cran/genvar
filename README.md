@@ -1,12 +1,20 @@
 # genvar: an R package for imperative data manipulation and regression (like Stata)
 
+This is the README for this version of `genvar`. It may not apply to the version of `genvar` on CRAN. See the README file on the CRAN page, https://cran.rstudio.com/web/packages/genvar/.
+
 ## Installation
 
-To install `genvar` type, at the R console,
+`genvar` is now on CRAN! To install latest CRAN release, run the following from R:
+
+```R
+install.packages("genvar", dependencies=TRUE)
+```
+
+To install latest development version from Github, run the following from R:
 ```R
 install.packages("devtools", dependencies=TRUE)
 library(devtools)
-install_github("flynnzac/genvar")
+install_github("flynnzac/genvar", ref="master")
 library(genvar)
 ```
 
@@ -21,7 +29,7 @@ To get a feel for what `genvar` looks like see the example in examples/test.r. T
 
 ## Bug Reporting
 
-Report any bugs or feature requests  (always willing to add features that you would like to be ported to this environment in R) to the Github repo https://github.com/flynnzac/genvar.
+Report any bugs or feature requests  (always willing to add features that you would like to be ported to this environment in R) to the Github repo https://github.com/flynnzac/genvar/issues.
 
 See below for the basic concepts and the reference manual for a list of commands.
 
@@ -33,7 +41,7 @@ Variable lists in `genvar` are specified by quoting the names of variables like,
 
 ## Quoted Expressions
 
-Many `genvar` commands work by using "quoted expressions" which are bits of code enclosed in quotation marks. For example, to use `genvar`'s `gen` command to generate log wages, you might type `gen("lnwage", "log(wage)")`. The second argument is a quoted expression. The quotes are necessary so that `R` does not try to execute `log(wage)` outside of the `genvar` environment. If you need to use a quotation mark in a quoted expression, escape it like so: `gen("hello", "\"hello\"")` to generate a variable called `hello` that contains the string _hello_ for every observation.
+Many `genvar` commands work by using "quoted expressions" which are bits of code provided as arguments to the function that could not be executed in the current R environment but will be properly processed in `genvar`.  They can optionally be enclosed in quotation marks when necessary. For example, to use `genvar`'s `gen` command to generate log wages, you might type `gen(lnwage, log(wage))`. If you want to list the variables of the form `x1,x2,x3,...`, you would use `describe("x*")` to avoid R interpreting the `x*` as an incomplete multiplication expression.
 
 # Basic overview of currently available functions
 
